@@ -20,6 +20,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
+                    
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Action</a>
@@ -29,7 +30,10 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Disabled</a>
+                   <router-link :to="{name:'boolable'}">Book Now</router-link>
+                </li>
+                <li class="nav-item">
+                   <router-link :to="{name:'booklist'}">Book Now</router-link>
                 </li>
               </ul>
               <form class="form-inline my-2 my-lg-0">
@@ -40,9 +44,10 @@
           </nav>
 
 
-        | 
+        | <div class="container">
         <router-view></router-view>
     </div>
+     </div>
 </template>
 
 

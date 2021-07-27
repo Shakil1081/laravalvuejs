@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import './bootstrap';
-import router from "./routes";
+import Router from "./routes";
 import Index from "./index";
 
 
@@ -12,7 +12,7 @@ window.Vue = require('vue').default;
 Vue.use(VueRouter);
 const app = new Vue({
     el: '#app',
-    router,
+    router: Router,
     components:{
         'index': Index
     }

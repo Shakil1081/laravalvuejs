@@ -11,7 +11,9 @@
   
 <div class="relative bg-white overflow-hidden">
    <div id="app">
-       <index></index>
+       <index>
+         
+       </index>
    </div>
 
 
