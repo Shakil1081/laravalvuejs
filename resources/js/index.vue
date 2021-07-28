@@ -12,11 +12,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                   <router-link :to="{name:'home'}">Home</router-link>
+                   <router-link :to="{name:'bookables'}">Sookables</router-link>
                 </li>
-                <li class="nav-item">
-                  <router-link :to="{name:'second'}">Page f2</router-link>
-                </li>
+                
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
@@ -29,12 +27,8 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                   </div>
                 </li>
-                <li class="nav-item">
-                   <router-link :to="{name:'boolable'}">Book Now</router-link>
-                </li>
-                <li class="nav-item">
-                   <router-link :to="{name:'booklist'}">Book Now</router-link>
-                </li>
+               
+               
               </ul>
               <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

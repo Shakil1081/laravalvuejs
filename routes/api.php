@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Bookable;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/bookable', function (Request $request) {
+    return Bookable::all();
+});
+
+Route::get('/bookable/{id}', function (Request $request, $id) {
+    return Bookable::findOrFail($id);
 });
