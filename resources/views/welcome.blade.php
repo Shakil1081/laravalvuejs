@@ -9,7 +9,7 @@
     <body class="antialiased "><!-- This example requires Tailwind CSS v2.0+ -->
         <!-- This example requires Tailwind CSS v2.0+ -->
   
-<div class="relative bg-white overflow-hidden">
+<div class="relative overflow-scroll">
    <div id="app">
        <index>
          

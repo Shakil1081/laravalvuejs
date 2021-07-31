@@ -1,9 +1,9 @@
 <?php
 
 namespace Database\Seeders;
-
-use Illuminate\Database\Seeder;
 use App\Models\Bookable;
+use Illuminate\Database\Seeder;
+
 
 class BookableSeeder extends Seeder
 {

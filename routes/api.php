@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Bookable;
+use App\Http\Controllers\Api\BookAbleController;
+use App\Http\Controllers\Api\BookableAvailabilityController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/bookable', function (Request $request) {
-    return Bookable::all();
-});
+Route::get('/bookable', [BookAbleController::class,'index']);
 
-Route::get('/bookable/{id}', function (Request $request, $id) {
-    return Bookable::findOrFail($id);
-});
+Route::get('/bookable/{id}', [BookAbleController::class,'show']);
+
+Route::get('/bookable/{id}/availability', BookableAvailabilityController::class)
+->name('book.availability.check');

@@ -3,9 +3,9 @@
 
                  <div class="card-body w-100">
 <router-link :to ="{ name:'bookable', params:{id}}">
-                   <h3 class="card-title">{{ title }}</h3>
+<h3 class="card-title">{{ title }}</h3>
 </router-link>
-                   <p class="card-text">{{ content }}</p>
+<p class="card-text">{{ content }}</p>
 
              </div>
               </div>
