@@ -15,6 +15,9 @@
                         :class="[{'is-invalide': this.errorFor('from')}]"
                     />
                 </div>
+                <div class="invalid-feedback" v-for="(error, index) in this.errorFor('from')" :key="'from'+ index">
+                    {{ errors }}
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -29,10 +32,13 @@
                         @keyup.enter="click"
                         :class="[{'is-invalide': this.errorFor('to')}]"
                     />
+                <div class="invalid-feedback" v-for="(error, index) in this.errorFor('to')" :key="'to'+ index">
+                                  {{ errors }}
+                </div>
                 </div>
             </div>
         </div>
-        <button type="button" name="Check !" id="check" @click="click" @disable="loading" class="btn btn-primary btn-lg btn-block">Check ! </button>
+        <button type="button" name="Check !" id="check" @click="click" :disabled="loading" class="btn btn-primary btn-lg btn-block">Check ! </button>
     </div>
 </template>
 
@@ -40,42 +46,44 @@
 <script>
 export default {
     data() {
-        this.loading= false;
+
         return {
             from:null,
             to:null,
+            loading: false,
             status:null,
-            error:null,
+            errors:null,
             
         }
     },
     methods:{
             click(){
-            this.error=null;
+                
             this.loading = true;
+             this.errors= null,
+            
             axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
             .then(response => {
-            this.status = response.status;
-            })
-            .catch(error => {
+                    this.status = response.status;
+            }).catch(error => {
             if( 422 == error.response.status){
-                this.error = error.response.data.errors;
+                this.errors = error.response.data.errors;
             }
             this.status= error.response.status;
-            }).then(()=>this.loading= false);
+            }).then(
+                ()=>this.loading = false
+                );
             },
-
-                errorFor(fiels){
-                console.log(this.hasErrors+" 3333");
-                console.log(this.error +" 2222");
-                return this.hasErrors && this.error[fiels] ? this.error[fiels] : null;
-                }
+            errorFor(fiels){   
+     
+            return this.hasErrors && this.errors[fiels] ? this.errors[fiels] : null;
+            }
 
     },
  
     computed: {
         hasErrors(){
-            return 422 == this.status && this.error != null;
+            return 422 == this.status && this.errors != null;
         },
         hasAvaiability(){
             return 200 == this.status;
@@ -86,3 +94,18 @@ export default {
     },
 };
 </script>
+<style scoped>
+label{
+   font-size: 0.7rem;
+   text-transform: uppercase;
+   color: gray;
+   font-weight: bolder;
+}
+.is-invalide{
+    border: #b222b2;
+    background-image: none;
+}
+.invalid-feedback{
+    color: #b222b2;
+}
+</style>
