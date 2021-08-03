@@ -15,6 +15,11 @@ class Booking extends Model
         return $this->belongsTo(Bookable::class);
     }
 
+    public function review()
+    {
+        return $this->hasone(Review::class);
+    }
+
     public function scopeBetweenDates($query, $from, $to){
     return $query->where('to', '>=', $from)
     ->where('from', '<=', $to);

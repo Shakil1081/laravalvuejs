@@ -1,6 +1,13 @@
 <template>
     <div>
+
+
         <div class="row">
+          <h5 class="col-12 text-uppercase text-secondary font-weight-bold pt-5">
+            Check availablity 
+            <span v-if="hasAvaiability" class="text-success">( Available)</span>
+            <span v-if="noAvailability" class="text-danger">( NO Available)</span>
+        </h5>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="fromdate">From</label>
@@ -16,7 +23,7 @@
                     />
                 </div>
                 <div class="invalid-feedback" v-for="(error, index) in this.errorFor('from')" :key="'from'+ index">
-                    {{ errors }}
+                    {{ error}}
                 </div>
             </div>
             <div class="col-md-6">
@@ -30,10 +37,11 @@
                         class="form-control"
                         placeholder="To"
                         @keyup.enter="click"
+
                         :class="[{'is-invalide': this.errorFor('to')}]"
                     />
                 <div class="invalid-feedback" v-for="(error, index) in this.errorFor('to')" :key="'to'+ index">
-                                  {{ errors }}
+                                  {{ error }}
                 </div>
                 </div>
             </div>
@@ -45,6 +53,9 @@
 
 <script>
 export default {
+     props:{
+        bookableId: String
+    },
     data() {
 
         return {
@@ -60,22 +71,27 @@ export default {
             click(){
                 
             this.loading = true;
-             this.errors= null,
+             this.errors = null,
             
             axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
             .then(response => {
                     this.status = response.status;
             }).catch(error => {
+               
             if( 422 == error.response.status){
                 this.errors = error.response.data.errors;
+              
             }
             this.status= error.response.status;
+
+            
             }).then(
                 ()=>this.loading = false
                 );
             },
-            errorFor(fiels){   
-     
+            errorFor(fiels){
+
+    
             return this.hasErrors && this.errors[fiels] ? this.errors[fiels] : null;
             }
 
@@ -83,13 +99,16 @@ export default {
  
     computed: {
         hasErrors(){
+
             return 422 == this.status && this.errors != null;
         },
         hasAvaiability(){
+            console.log(this.status+"______");
             return 200 == this.status;
         },
         noAvailability(){
-            return 400 == this.status;
+                            console.log(this.status);
+            return 404 == this.status;
         }
     },
 };
@@ -102,10 +121,13 @@ label{
    font-weight: bolder;
 }
 .is-invalide{
-    border: #b222b2;
+    border-color: red;
     background-image: none;
 }
 .invalid-feedback{
-    color: #b222b2;
+    color: red;
+}
+.invalid-feedback {
+    display: block;
 }
 </style>

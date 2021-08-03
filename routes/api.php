@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Bookable;
 use App\Http\Controllers\Api\BookAbleController;
 use App\Http\Controllers\Api\BookableAvailabilityController;
+use App\Http\Controllers\Api\BookableReviewController;
 
 
 /*
@@ -28,3 +29,6 @@ Route::get('/bookable/{id}', [BookAbleController::class,'show']);
 
 Route::get('/bookable/{id}/availability', BookableAvailabilityController::class)
 ->name('book.availability.check');
+
+Route::get('bookable/{id}/reviews', BookableReviewController::class)
+->name('bookable.review.index');

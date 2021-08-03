@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([ 
-            BookableSeeder::class
+            BookableSeeder::class,
+            BookingsTableSeeder::class,
+            ReviewsTablesSeeder::class
         ]);
-        $this->call([ 
-            BookingsTableSeeder::class
-        ]);
+
     }
 }
