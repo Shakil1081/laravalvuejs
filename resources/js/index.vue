@@ -21,6 +21,11 @@
                             >Sookables</router-link
                         >
                     </li>
+                    <li class="nav-item active">
+                        <router-link :to="{ name: 'reviewadd' }"
+                            >Add review</router-link
+                        >
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a

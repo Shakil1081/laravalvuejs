@@ -4,7 +4,9 @@
 
         <div v-if="loading"> Loading ...</div>
         <div v-else> 
-
+            <stare-rating :rating="0.1"></stare-rating>
+            <stare-rating :rating="0.5"></stare-rating>
+            <stare-rating :rating="review.rating"></stare-rating>
         <div class="border-bottom d-none d-md-block" v-for="(review, index) in reviews" :key="index">
             <div class="row pt-3">
                 <div class="col-md-6">Namr </div>
