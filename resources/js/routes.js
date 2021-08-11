@@ -2,7 +2,7 @@ import VueRouter from "vue-router";
 import Boolables from "./components/bookables/BookAbles";
 import BookList from "./components/bookables/BookAbleList";
 import Bookable from "./components/bookable/Bookable";
-import Review from "./components/review/review";
+import Review from "./components/review/Review";
 const routes = [
     {
         path: "/bookables",
