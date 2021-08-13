@@ -2249,8 +2249,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2258,15 +2256,25 @@ __webpack_require__.r(__webpack_exports__);
         rating: 5,
         content: null
       },
-      existingReview: null
+      existingReview: null,
+      loading: false,
+      booking: null
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get("/api/review/".concat(this.$route.params.id)).then(function (response) {
+    this.loading = true, axios.get("/api/review/".concat(this.$route.params.id)).then(function (response) {
       return _this.existingReview = response.data.data;
-    })["catch"](function (err) {});
+    })["catch"](function (err) {
+      if (err.response && err.response.status && 404 == err.response.status) {
+        return axios.get("/api/booking-by-review/".concat(_this.$route.params.id)).then(function (response) {
+          _this.booking = response.data.data;
+        });
+      }
+    }).then(function () {
+      return _this.loading = false;
+    });
   },
   computed: {
     alreadyReviewed: function alreadyReviewed() {
@@ -2440,24 +2448,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
-  path: "/bookables",
+  path: '/bookables',
   component: _components_bookables_BookAbles__WEBPACK_IMPORTED_MODULE_0__.default,
-  name: "bookables"
+  name: 'bookables'
 }, {
-  path: "/booklist",
+  path: '/booklist',
   component: _components_bookables_BookAbleList__WEBPACK_IMPORTED_MODULE_1__.default,
-  name: "booklist"
+  name: 'booklist'
 }, {
-  path: "/bookable/:id",
+  path: '/bookable/:id',
   component: _components_bookable_Bookable__WEBPACK_IMPORTED_MODULE_2__.default,
-  name: "bookable"
+  name: 'bookable'
 }, {
-  path: "/review",
+  path: '/review/:id',
   component: _components_review_Review__WEBPACK_IMPORTED_MODULE_3__.default,
-  name: "reviewadd"
+  name: 'reviewadd'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__.default({
-  mode: "history",
+  mode: 'history',
   routes: routes
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
@@ -60709,39 +60717,46 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm.loading ? _c("div", [_vm._v(" Loading.....")]) : _vm._e(),
+    _vm._v(" "),
     _vm.alreadyReviewed
-      ? _c("div", [_vm._v("\n   aaa\n   ")])
-      : _c("div", [_vm._v("\nddddddddddddddd\n   ")]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "from-group" },
-      [
-        _c("label", { staticClass: "text-muted", attrs: { for: "stat" } }, [
-          _vm._v(" Select the star rating (1 is woest - 5 is best)")
-        ]),
-        _vm._v(" "),
-        _c("stare-rating", {
-          staticClass: "fa-3x",
-          model: {
-            value: _vm.review.rating,
-            callback: function($$v) {
-              _vm.$set(_vm.review, "rating", $$v)
+      ? _c("div", [_c("strong", [_vm._v("alreadyReviewed")])])
+      : _c("div", [
+          _c(
+            "div",
+            { staticClass: "from-group" },
+            [
+              _c(
+                "label",
+                { staticClass: "text-muted", attrs: { for: "stat" } },
+                [_vm._v(" Select the star rating (1 is woest - 5 is best)")]
+              ),
+              _vm._v(" "),
+              _c("stare-rating", {
+                staticClass: "fa-3x",
+                model: {
+                  value: _vm.review.rating,
+                  callback: function($$v) {
+                    _vm.$set(_vm.review, "rating", $$v)
+                  },
+                  expression: "review.rating"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg",
+              attrs: { type: "button" }
             },
-            expression: "review.rating"
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-primary btn-lg", attrs: { type: "button" } },
-      [_vm._v("Submit")]
-    )
+            [_vm._v("Submit")]
+          )
+        ])
   ])
 }
 var staticRenderFns = [

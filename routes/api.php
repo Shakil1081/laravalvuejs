@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\BookAbleController;
 use App\Http\Controllers\Api\BookableAvailabilityController;
 use App\Http\Controllers\Api\BookableReviewController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\BookingByReviewController;
+
 
 
 
@@ -36,5 +38,6 @@ Route::get('/bookable/{id}/availability', BookableAvailabilityController::class)
 Route::get('bookable/{id}/reviews', BookableReviewController::class)
 ->name('bookable.review.index');
 
+Route::get('/booking-by-review/{reviewKey}', BookingByReviewController::class)->name('booking.by-review.show');
 //Route::get('reviews', [ReviewController::class, 'show']);
 Route::apiResource('reviews', ReviewController::class)->only(['show']);

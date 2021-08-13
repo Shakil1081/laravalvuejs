@@ -1,14 +1,12 @@
 <template>
     <div>
+        <div v-if="loading"> Loading.....</div>
    <div v-if="alreadyReviewed">
-   aaa
+   <strong>alreadyReviewed</strong>
    </div>
    <div v-else>
-ddddddddddddddd
-   </div>
-
        <div class="from-group">
-           <label for="stat" 
+           <label for="stat"
            class="text-muted"> Select the star rating (1 is woest - 5 is best)</label>
            <stare-rating class="fa-3x" v-model="review.rating">
            </stare-rating>
@@ -20,7 +18,7 @@ ddddddddddddddd
        </div>
      <button type="button" class="btn btn-primary btn-lg">Submit</button>
      </div>
-    
+     </div>
 </template>
 
 <script>
@@ -31,15 +29,23 @@ export default {
             rating:5,
             content: null
         },
-        existingReview: null
+        existingReview: null,
+        loading:false,
+        booking:null
     }
  },
  created() {
+     this.loading=true,
      axios.get(`/api/review/${this.$route.params.id}`)
      .then(response => (this.existingReview = response.data.data))
      .catch( err => {
-                    
-     });
+         if(err.response && err.response.status && 404==err.response.status){
+             return axios.get(`/api/booking-by-review/${this.$route.params.id}`)
+             .then(response=>{
+                 this.booking = response.data.data;
+             });
+         }
+     }).then(()=>(this.loading = false));
  },
  computed:{
      alreadyReviewed(){
@@ -47,5 +53,5 @@ export default {
      }
  }
 }
-    
+
 </script>
