@@ -2263,6 +2263,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2281,15 +2293,31 @@ __webpack_require__.r(__webpack_exports__);
     this.loading = true, axios.get("/api/reviews/".concat(this.$route.params.id)).then(function (response) {
       return _this.existingReview = response.data.data;
     })["catch"](function (err) {
+<<<<<<< HEAD
       console.log(err);
     }).then(function (response) {
       console.log(response + "ffffffffffff" + _this.booking);
       _this.loading = false;
+=======
+      if (err.response && err.response.status && 404 == err.response.status) {
+        return axios.get("/api/booking-by-review/".concat(_this.$route.params.id)).then(function (response) {
+          _this.booking = response.data.data;
+        });
+      }
+    }).then(function () {
+      return _this.loading = false;
+>>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
     });
   },
   computed: {
     alreadyReviewed: function alreadyReviewed() {
+      return this.hasReview || this.booking;
+    },
+    hasReview: function hasReview() {
       return this.existingReview != null;
+    },
+    hasBooking: function hasBooking() {
+      return this.booking != null;
     }
   }
 });
@@ -2459,24 +2487,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [{
-  path: "/bookables",
+  path: '/bookables',
   component: _components_bookables_BookAbles__WEBPACK_IMPORTED_MODULE_0__.default,
-  name: "bookables"
+  name: 'bookables'
 }, {
-  path: "/booklist",
+  path: '/booklist',
   component: _components_bookables_BookAbleList__WEBPACK_IMPORTED_MODULE_1__.default,
-  name: "booklist"
+  name: 'booklist'
 }, {
-  path: "/bookable/:id",
+  path: '/bookable/:id',
   component: _components_bookable_Bookable__WEBPACK_IMPORTED_MODULE_2__.default,
-  name: "bookable"
+  name: 'bookable'
 }, {
+<<<<<<< HEAD
   path: "/review/:id",
+=======
+  path: '/review/:id',
+>>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
   component: _components_review_Review__WEBPACK_IMPORTED_MODULE_3__.default,
-  name: "reviewadd"
+  name: 'reviewadd'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__.default({
-  mode: "history",
+  mode: 'history',
   routes: routes
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
@@ -60727,6 +60759,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", [
     _vm.loading
       ? _c("div", [_vm._v(" loading")])
@@ -60774,6 +60807,111 @@ var render = function() {
                 )
               ])
         ])
+=======
+  return _c("div", { staticClass: "row" }, [
+    _c(
+      "div",
+      {
+        class: [
+          { "col-md-4": _vm.loading || !_vm.alreadyReviewed },
+          { "d-none": !_vm.loading && _vm.alreadyReviewed }
+        ]
+      },
+      [
+        _c("div", { staticClass: "card text-left" }, [
+          _c("img", {
+            staticClass: "card-img-top",
+            attrs: { src: "holder.js/100px180/", alt: "" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm.loading
+              ? _c("div", [_vm._v(" Loding")])
+              : _c(
+                  "div",
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          to: {
+                            name: "bookables",
+                            params: { id: _vm.booking.bookable.bokable_id }
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(_vm.booking.bookable.title))]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "\n\n                    From " +
+                          _vm._s(_vm.booking.from) +
+                          " to " +
+                          _vm._s(_vm.booking.to) +
+                          "\n                "
+                      )
+                    ])
+                  ],
+                  1
+                )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        class: [
+          { "col-md-8": _vm.loading || !_vm.alreadyReviewed },
+          { "col-md-12": !_vm.loading && _vm.alreadyReviewed }
+        ]
+      },
+      [
+        _vm.loading ? _c("div", [_vm._v(" Loading.....")]) : _vm._e(),
+        _vm._v(" "),
+        _vm.alreadyReviewed
+          ? _c("div", [_c("strong", [_vm._v("alreadyReviewed")])])
+          : _c("div", [
+              _c(
+                "div",
+                { staticClass: "from-group" },
+                [
+                  _c(
+                    "label",
+                    { staticClass: "text-muted", attrs: { for: "stat" } },
+                    [_vm._v(" Select the star rating (1 is woest - 5 is best)")]
+                  ),
+                  _vm._v(" "),
+                  _c("stare-rating", {
+                    staticClass: "fa-3x",
+                    model: {
+                      value: _vm.review.rating,
+                      callback: function($$v) {
+                        _vm.$set(_vm.review, "rating", $$v)
+                      },
+                      expression: "review.rating"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-lg",
+                  attrs: { type: "button" }
+                },
+                [_vm._v("Submit")]
+              )
+            ])
+      ]
+    )
+>>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
   ])
 }
 var staticRenderFns = [
