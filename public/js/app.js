@@ -2251,6 +2251,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2258,15 +2270,22 @@ __webpack_require__.r(__webpack_exports__);
         rating: 5,
         content: null
       },
-      existingReview: null
+      existingReview: null,
+      loading: false,
+      booking: null
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get("/api/review/".concat(this.$route.params.id)).then(function (response) {
+    this.loading = true, axios.get("/api/reviews/".concat(this.$route.params.id)).then(function (response) {
       return _this.existingReview = response.data.data;
-    })["catch"](function (err) {});
+    })["catch"](function (err) {
+      console.log(err);
+    }).then(function (response) {
+      console.log(response + "ffffffffffff" + _this.booking);
+      _this.loading = false;
+    });
   },
   computed: {
     alreadyReviewed: function alreadyReviewed() {
@@ -2452,7 +2471,7 @@ var routes = [{
   component: _components_bookable_Bookable__WEBPACK_IMPORTED_MODULE_2__.default,
   name: "bookable"
 }, {
-  path: "/review",
+  path: "/review/:id",
   component: _components_review_Review__WEBPACK_IMPORTED_MODULE_3__.default,
   name: "reviewadd"
 }];
@@ -60709,42 +60728,69 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.alreadyReviewed
-      ? _c("div", [_vm._v("\n   aaa\n   ")])
-      : _c("div", [_vm._v("\nddddddddddddddd\n   ")]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "from-group" },
-      [
-        _c("label", { staticClass: "text-muted", attrs: { for: "stat" } }, [
-          _vm._v(" Select the star rating (1 is woest - 5 is best)")
-        ]),
-        _vm._v(" "),
-        _c("stare-rating", {
-          staticClass: "fa-3x",
-          model: {
-            value: _vm.review.rating,
-            callback: function($$v) {
-              _vm.$set(_vm.review, "rating", $$v)
-            },
-            expression: "review.rating"
-          }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "button",
-      { staticClass: "btn btn-primary btn-lg", attrs: { type: "button" } },
-      [_vm._v("Submit")]
-    )
+    _vm.loading
+      ? _c("div", [_vm._v(" loading")])
+      : _c("div", [
+          _vm.alreadyReviewed
+            ? _c("div", [_vm._m(0)])
+            : _c("div", [
+                _c(
+                  "div",
+                  { staticClass: "from-group" },
+                  [
+                    _c(
+                      "label",
+                      { staticClass: "text-muted", attrs: { for: "stat" } },
+                      [
+                        _vm._v(
+                          " Select the star rating (1 is woest - 5 is best)"
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("stare-rating", {
+                      staticClass: "fa-3x",
+                      model: {
+                        value: _vm.review.rating,
+                        callback: function($$v) {
+                          _vm.$set(_vm.review, "rating", $$v)
+                        },
+                        expression: "review.rating"
+                      }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-lg",
+                    attrs: { type: "button" }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ])
+        ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card p-5 d-f " }, [
+      _c("div", { staticClass: "card-body text-center" }, [
+        _c("h5", { staticClass: "card-title" }, [
+          _vm._v("Already Feedback provide")
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "card-text" }, [_vm._v("Content")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -21,7 +21,7 @@ const routes = [
     }
     ,
     {
-        path: "/review",
+        path: "/review/:id",
         component: Review,
         name: "reviewadd"
     }
