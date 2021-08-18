@@ -2226,6 +2226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _shared_utils_response_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../shared/utils/response.js */ "./resources/js/components/shared/utils/response.js");
 //
 //
 //
@@ -2263,8 +2264,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
-=======
 //
 //
 //
@@ -2274,7 +2273,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
->>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2284,40 +2290,61 @@ __webpack_require__.r(__webpack_exports__);
       },
       existingReview: null,
       loading: false,
-      booking: null
+      booking: null,
+      error: false
     };
   },
   created: function created() {
     var _this = this;
 
-    this.loading = true, axios.get("/api/reviews/".concat(this.$route.params.id)).then(function (response) {
+    this.review.id = this.$route.params.id;
+    this.loading = true;
+    axios.get("/api/reviews/".concat(this.review.id)).then(function (response) {
       return _this.existingReview = response.data.data;
     })["catch"](function (err) {
-<<<<<<< HEAD
-      console.log(err);
-    }).then(function (response) {
-      console.log(response + "ffffffffffff" + _this.booking);
-      _this.loading = false;
-=======
-      if (err.response && err.response.status && 404 == err.response.status) {
-        return axios.get("/api/booking-by-review/".concat(_this.$route.params.id)).then(function (response) {
+      if ((0,_shared_utils_response_js__WEBPACK_IMPORTED_MODULE_0__.is404)(err)) {
+        return axios.get("/api/booking-by-review/".concat(_this.review.id)).then(function (response) {
           _this.booking = response.data.data;
+        })["catch"](function (err) {
+          //is404(err) ? {} :(this.error = true);
+          _this.error = !(0,_shared_utils_response_js__WEBPACK_IMPORTED_MODULE_0__.is404)(err);
         });
       }
+
+      _this.error = true;
     }).then(function () {
       return _this.loading = false;
->>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
     });
   },
   computed: {
     alreadyReviewed: function alreadyReviewed() {
-      return this.hasReview || this.booking;
+      return this.hasReview || !this.booking;
     },
     hasReview: function hasReview() {
       return this.existingReview != null;
     },
     hasBooking: function hasBooking() {
       return this.booking != null;
+    },
+    oneColumn: function oneColumn() {
+      return !this.loading && this.alreadyReviewed;
+    },
+    twoColumn: function twoColumn() {
+      return this.loading || !this.alreadyReviewed;
+    }
+  },
+  methods: {
+    submit: function submit() {
+      var _this2 = this;
+
+      this.loading = true;
+      axios.post("/api/reviews/").then(function (response) {
+        return console.log(response);
+      })["catch"](function (err) {
+        return _this2.error = true;
+      }).then(function () {
+        return _this2.loading = false;
+      });
     }
   }
 });
@@ -2465,6 +2492,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/components/shared/utils/response.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/shared/utils/response.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "is404": () => (/* binding */ is404)
+/* harmony export */ });
+var is404 = function is404(err) {
+  return err.response && err.response.status && 404 == err.response.status;
+};
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -2499,11 +2543,7 @@ var routes = [{
   component: _components_bookable_Bookable__WEBPACK_IMPORTED_MODULE_2__.default,
   name: 'bookable'
 }, {
-<<<<<<< HEAD
-  path: "/review/:id",
-=======
   path: '/review/:id',
->>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
   component: _components_review_Review__WEBPACK_IMPORTED_MODULE_3__.default,
   name: 'reviewadd'
 }];
@@ -60759,176 +60799,162 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-<<<<<<< HEAD
   return _c("div", [
-    _vm.loading
-      ? _c("div", [_vm._v(" loading")])
-      : _c("div", [
-          _vm.alreadyReviewed
-            ? _c("div", [_vm._m(0)])
-            : _c("div", [
-                _c(
-                  "div",
-                  { staticClass: "from-group" },
-                  [
-                    _c(
-                      "label",
-                      { staticClass: "text-muted", attrs: { for: "stat" } },
-                      [
-                        _vm._v(
-                          " Select the star rating (1 is woest - 5 is best)"
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("stare-rating", {
-                      staticClass: "fa-3x",
-                      model: {
-                        value: _vm.review.rating,
-                        callback: function($$v) {
-                          _vm.$set(_vm.review, "rating", $$v)
-                        },
-                        expression: "review.rating"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary btn-lg",
-                    attrs: { type: "button" }
-                  },
-                  [_vm._v("Submit")]
-                )
-              ])
-        ])
-=======
-  return _c("div", { staticClass: "row" }, [
-    _c(
-      "div",
-      {
-        class: [
-          { "col-md-4": _vm.loading || !_vm.alreadyReviewed },
-          { "d-none": !_vm.loading && _vm.alreadyReviewed }
-        ]
-      },
-      [
-        _c("div", { staticClass: "card text-left" }, [
-          _c("img", {
-            staticClass: "card-img-top",
-            attrs: { src: "holder.js/100px180/", alt: "" }
-          }),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm.loading
-              ? _c("div", [_vm._v(" Loding")])
-              : _c(
-                  "div",
-                  [
-                    _c(
-                      "router-link",
-                      {
-                        attrs: {
-                          to: {
-                            name: "bookables",
-                            params: { id: _vm.booking.bookable.bokable_id }
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(_vm.booking.bookable.title))]
-                    ),
-                    _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "\n\n                    From " +
-                          _vm._s(_vm.booking.from) +
-                          " to " +
-                          _vm._s(_vm.booking.to) +
-                          "\n                "
-                      )
-                    ])
-                  ],
-                  1
-                )
+    _c("div", { staticClass: "row" }, [
+      _vm.error
+        ? _c("div", { staticClass: "col-md-12" }, [
+            _vm._v(
+              "\n                Unknow error has occured, please try  again later!\n                "
+            )
           ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        class: [
-          { "col-md-8": _vm.loading || !_vm.alreadyReviewed },
-          { "col-md-12": !_vm.loading && _vm.alreadyReviewed }
-        ]
-      },
-      [
-        _vm.loading ? _c("div", [_vm._v(" Loading.....")]) : _vm._e(),
-        _vm._v(" "),
-        _vm.alreadyReviewed
-          ? _c("div", [_c("strong", [_vm._v("alreadyReviewed")])])
-          : _c("div", [
+        : _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "row" }, [
               _c(
                 "div",
-                { staticClass: "from-group" },
+                {
+                  class: [
+                    { "col-md-4": _vm.twoColumn },
+                    { "d-none": _vm.oneColumn }
+                  ]
+                },
                 [
-                  _c(
-                    "label",
-                    { staticClass: "text-muted", attrs: { for: "stat" } },
-                    [_vm._v(" Select the star rating (1 is woest - 5 is best)")]
-                  ),
-                  _vm._v(" "),
-                  _c("stare-rating", {
-                    staticClass: "fa-3x",
-                    model: {
-                      value: _vm.review.rating,
-                      callback: function($$v) {
-                        _vm.$set(_vm.review, "rating", $$v)
-                      },
-                      expression: "review.rating"
-                    }
-                  })
-                ],
-                1
+                  _c("div", { staticClass: "card text-left" }, [
+                    _c("div", { staticClass: "card-body" }, [
+                      _vm.loading
+                        ? _c("div", [_vm._v(" Loading... ")])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.hasBooking
+                        ? _c(
+                            "div",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  attrs: {
+                                    to: {
+                                      name: "bookable",
+                                      params: { id: _vm.booking.bookable.id }
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    " Saty" + _vm._s(_vm.booking.bookable.title)
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("p", [
+                                _vm._v(
+                                  "From " +
+                                    _vm._s(_vm.booking.from) +
+                                    " to " +
+                                    _vm._s(_vm.booking.to) +
+                                    " "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ])
+                  ])
+                ]
               ),
               _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
               _c(
-                "button",
+                "div",
                 {
-                  staticClass: "btn btn-primary btn-lg",
-                  attrs: { type: "button" }
+                  class: [
+                    { "col-md-8": _vm.twoColumn },
+                    { "col-md-12": _vm.oneColumn }
+                  ]
                 },
-                [_vm._v("Submit")]
+                [
+                  _vm.loading
+                    ? _c("div", [_vm._v(" Loading....." + _vm._s(_vm.loading))])
+                    : _c("div", [
+                        _vm.alreadyReviewed
+                          ? _c("div", [
+                              _c("h3", [
+                                _vm._v(
+                                  "You`ve already left a review for this booking!"
+                                )
+                              ])
+                            ])
+                          : _c("div", [
+                              _c(
+                                "div",
+                                { staticClass: "from-group" },
+                                [
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "text-muted",
+                                      attrs: { for: "stat" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        " Select the star rating (1 is woest - 5 is best)"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("stare-rating", {
+                                    staticClass: "fa-3x",
+                                    model: {
+                                      value: _vm.review.rating,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.review, "rating", $$v)
+                                      },
+                                      expression: "review.rating"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _vm._m(0),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary btn-lg",
+                                  attrs: {
+                                    type: "button",
+                                    disable: _vm.loading
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      if (
+                                        !$event.type.indexOf("key") &&
+                                        _vm._k(
+                                          $event.keyCode,
+                                          "pervent",
+                                          undefined,
+                                          $event.key,
+                                          undefined
+                                        )
+                                      ) {
+                                        return null
+                                      }
+                                      return _vm.submit.apply(null, arguments)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Submit ")]
+                              )
+                            ])
+                      ])
+                ]
               )
             ])
-      ]
-    )
->>>>>>> d575f1c8bc915e6e7a93bef889b7822df995fc47
+          ])
+    ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-5 d-f " }, [
-      _c("div", { staticClass: "card-body text-center" }, [
-        _c("h5", { staticClass: "card-title" }, [
-          _vm._v("Already Feedback provide")
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "card-text" }, [_vm._v("Content")])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

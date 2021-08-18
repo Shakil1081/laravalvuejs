@@ -14,11 +14,12 @@ class BookingByReviewShowResoruce extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+
+         return [
             'booking_id'=> $this->id,
             'from'=> $this->from,
-            'to' => $this->to,
-            'bookable'=> new BookingByReviewBookableShowResoruce($this->bookable),
-        ];
+             'to' => $this->to,
+             'bookable'=> new BookingByReviewBookableShowResoruce($this->bookable),
+         ];
     }
 }
