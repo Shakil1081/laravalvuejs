@@ -21,10 +21,13 @@
                         @keyup.enter="click"
                         :class="[{'is-invalide': this.errorFor('from')}]"
                     />
+                     <v-error :errors="errorFor('from')"></v-error>
                 </div>
+                 
+            <!--
                 <div class="invalid-feedback" v-for="(error, index) in this.errorFor('from')" :key="'from'+ index">
                     {{ error}}
-                </div>
+                </div>-->
             </div>
             <div class="col-md-6">
                 <div class="form-group">
@@ -40,9 +43,7 @@
 
                         :class="[{'is-invalide': this.errorFor('to')}]"
                     />
-                <div class="invalid-feedback" v-for="(error, index) in this.errorFor('to')" :key="'to'+ index">
-                                  {{ error }}
-                </div>
+              <v-error :errors="errorFor('to')"></v-error>
                 </div>
             </div>
         </div>
@@ -52,7 +53,11 @@
 
 
 <script>
+
+import { is404, is422} from './../shared/utils/response';
+import validationError from './../shared/mixins/validationErrors.js';
 export default {
+    mixins: [validationError],
      props:{
         bookableId: String
     },
@@ -62,9 +67,7 @@ export default {
             from:null,
             to:null,
             loading: false,
-            status:null,
-            errors:null,
-            
+            status:null,            
         }
     },
     methods:{
@@ -78,9 +81,8 @@ export default {
                     this.status = response.status;
             }).catch(error => {
                
-            if( 422 == error.response.status){
+            if(is422(error) ){
                 this.errors = error.response.data.errors;
-              
             }
             this.status= error.response.status;
 
@@ -88,12 +90,10 @@ export default {
             }).then(
                 ()=>this.loading = false
                 );
-            },
-            errorFor(fiels){
-
-    
-            return this.hasErrors && this.errors[fiels] ? this.errors[fiels] : null;
             }
+            // errorFor(fiels){
+            // return this.hasErrors && this.errors[fiels] ? this.errors[fiels] : null;
+            // }
 
     },
  

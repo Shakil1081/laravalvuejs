@@ -1,9 +1,11 @@
 <template>
 <div>
 <div class="row">
-                <div class="col-md-12" v-if="error">
+              <!--  <div class="col-md-12" v-if="error">
                 Unknow error has occured, please try  again later!
-                </div>
+                </div>-->
+
+                <fatal-error v-if="error"></fatal-error>
 
         <div class="col-md-12" v-else>
         <div class="row">
@@ -12,7 +14,7 @@
                                 <div class="card-body">
                                     <div v-if="loading"> Loading... </div>
                                     <div v-if="hasBooking">
-                                        <router-link :to="{name: 'bookable', params:{ id: booking.bookable.id}}"> Saty{{ booking.bookable.title }}</router-link>
+                                        <router-link :to="{name: 'bookable', params:{ id: booking.bookable.id}}"> Saty {{ booking.bookable.title }}</router-link>
                                         <p>From {{ booking.from }} to {{ booking.to }} </p>
                                     </div>
 
@@ -34,13 +36,25 @@
                                                                     <stare-rating class="fa-3x" v-model="review.rating">
                                                                     </stare-rating>
                                                                     </div>
-                                                                    <div class="from-group">
+
+                                                                    <div class="form-group">
                                                                     <label for="content" class="text-muted"> Describe your experince</label>
-                                                                    <textarea name="content" id="content" cols="30" rows="10" class="form-control"></textarea>
+                                                                    <textarea 
+                                                                    name="content" 
+                                                                    id="content"
+                                                                    cols="30"
+                                                                    rows="10"
+                                                                    class="form-control" 
+                                                                    v-model="review.content"
+                                                                    :class="[{'is-invalide': errorFor('content')}]"
+                                                                    ></textarea>
+                                                                    <v-error :errors="errorFor('content')"></v-error>
+                                                                    
                                                                     </div>
-                                                                    <button type="button" class="btn btn-primary btn-lg"
+                                                                    
+                                                                    <button class="btn btn-primary btn-lg btn-block"
                                                                      @click.pervent="submit"
-                                                                     :disable="loading">Submit </button>
+                                                                     :disable="sending">Submit </button>
                                                             </div>
                                             </div>
                                 </div>
@@ -52,18 +66,23 @@
 </template>
 
 <script>
-import {is404} from './../shared/utils/response.js';
+import {is404, is422} from './../shared/utils/response.js';
+import validationError from './../shared/mixins/validationErrors.js';
 export default {
+
+  mixins: [validationError],
   data() {
     return {
       review: {
+        id:null,
         rating: 5,
         content: null,
       },
       existingReview: null,
       loading: false,
       booking: null,
-      error: false
+      error: false,
+      sending: false
     };
   },
   created() {
@@ -108,12 +127,49 @@ export default {
   },
   methods: {
       submit(){
-          this.loading = true;
-      axios.post(`/api/reviews/`)
+          // 3. Store the review
+this.errors = null;
+this.sending = true;
+/*this.review.rating = 6;*/
+      axios.post(`/api/reviews/`, this.review)
       .then( response => console.log(response))
-      .catch( (err) => (this.error= true))
-      .then(() => (this.loading= false));
-      }
+      .catch( (err) => {
+          if(is422(err)){
+              const errors = err.response.data.errors;
+            if(errors["content"] && 1 == _.size(errors)){
+                this.errors = errors;
+                return;
+            }              
+          }
+          this.error = true;
+      })
+      .then(() => (this.sending= false));
+      },
+    // errorFor(field){
+    // return null!= this.errors && this.errors[field] 
+    // ? this.errors[field] :
+    //  null;
+    // }
   }
 };
 </script>
+<style scoped>
+label{
+   font-size: 0.7rem;
+   text-transform: uppercase;
+   color: gray;
+   font-weight: bolder;
+}
+.is-invalide{
+    border-color: red;
+    background-image: none;
+}
+.invalid-feedback{
+    color: red;
+}
+.invalid-feedback {
+    display: block;
+}
+
+
+</style>

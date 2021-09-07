@@ -33,8 +33,6 @@ class ReviewController extends Controller
         $booking->review_key ='';
         $booking->save();
 
-
-
         $review = Review::make($data);
         $review->booking_id = $booking->id;
         $review->bookable_id = $booking->bookable_id;

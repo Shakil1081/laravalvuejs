@@ -10,8 +10,7 @@
                 <div
                     class="col d-flex align-items-stretch card m-2"
                     v-for="(bookable, index) in bookableInRow(row)"
-                    :key="'row' + row + index"
-                >
+                    :key="'row' + row + index">
                     <BookAbleList
                         v-bind="bookable"
                         :key="index"
