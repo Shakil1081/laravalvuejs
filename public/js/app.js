@@ -1917,7 +1917,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_shared_mixins_validationErrors_js__WEBPACK_IMPORTED_MODULE_1__.default],
   props: {
-    bookableId: String
+    bookableId: [String, Number]
   },
   data: function data() {
     return {
@@ -2058,7 +2058,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    bookableId: String
+    bookableId: [String, Number]
   },
   data: function data() {
     return {
@@ -2319,6 +2319,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2350,10 +2351,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.loading = true;
               _context.prev = 2;
               _context.next = 5;
-              return axios.get("/api/reviews/".concat(_this.review.id)).data.data;
+              return axios.get("/api/reviews/".concat(_this.review.id));
 
             case 5:
-              _this.existingReview = _context.sent;
+              _this.existingReview = _context.sent.data.data;
               _context.next = 23;
               break;
 
@@ -2388,24 +2389,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.error = true;
 
             case 23:
-              _this.loading = false; //   axios
-              //     .get(`/api/reviews/${this.review.id}`)
-              //     .then((response) => (this.existingReview = response.data.data))
-              //     .catch((err) => {
-              //                         if (is404(err)) {
-              //                             return axios
-              //                             .get(`/api/booking-by-review/${this.review.id}`)
-              //                             .then((response) => {
-              //                                 this.booking = response.data.data;
-              //                             }).catch(
-              //                                     err=>{
-              //                                     //is404(err) ? {} :(this.error = true);
-              //                                     this.error = !is404(err);
-              //                                     });
-              //                         }
-              //                         this.error = true;
-              //     })
-              //     .then(() => (this.loading = false));
+              _this.loading = false;
+              /*     
+              created() {
+              this.review.id = this.$route.params.id;
+              this.loading = true;
+              axios.get(`/api/reviews/${this.review.id}`)
+                     .then((response) => (this.existingReview = response.data.data))
+                     .catch((err) => {
+                                         if (is404(err)) {
+                                             return axios
+                                             .get(`/api/booking-by-review/${this.review.id}`)
+                                             .then((response) => {
+                                                 this.booking = response.data.data;
+                                             }).catch(
+                                                      err=>{
+                                                     //is404(err) ? {} :(this.error = true);
+                                                     this.error = !is404(err);
+                                                     });
+                                         }
+                                         this.error = true;
+                     })
+                     .then(() => (this.loading = false));
+                     */
 
             case 24:
             case "end":
@@ -2439,7 +2445,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // 3. Store the review
       this.errors = null;
       this.sending = true;
-      this.success = true;
+      this.success = false;
       /*this.review.rating = 6;*/
 
       axios.post("/api/reviews/", this.review).then(function (response) {
@@ -62196,8 +62202,12 @@ var render = function() {
       "div",
       { staticClass: "row" },
       [
-        _vm.error
-          ? _c("fatal-error")
+        _vm.error ? _c("fatal-error") : _vm._e(),
+        _vm._v(" "),
+        _vm.success
+          ? _c("success", [
+              _vm._v(" You`ve left a review, Thank you very much!")
+            ])
           : _c("div", { staticClass: "col-md-12" }, [
               _c("div", { staticClass: "row" }, [
                 _c(
@@ -62523,22 +62533,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "text-center sucess" }, [
+    _c("i", { staticClass: " fa fa-thumbs-up" }),
+    _vm._v(" "),
+    _c("h1", { staticClass: "mt-4" }, [_vm._v("Success!")]),
+    _vm._v(" "),
+    _c("h2", [_vm._t("default")], 2)
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center sucess" }, [
-      _c("i", { staticClass: " fa fa-thumbs-up" }),
-      _vm._v(" "),
-      _c("h1", { staticClass: "mt-4" }, [_vm._v("Success!")]),
-      _vm._v(" "),
-      _c("h2", [_vm._v("The operation eas success full!")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
