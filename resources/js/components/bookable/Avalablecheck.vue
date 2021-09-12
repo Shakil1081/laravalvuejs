@@ -64,8 +64,8 @@ export default {
     data() {
 
         return {
-            from:null,
-            to:null,
+            from: this.$store.state.lastSearch.from,
+            to: this.$store.state.lastSearch.to,
             loading: false,
             status:null,            
         }
@@ -74,8 +74,13 @@ export default {
             click(){
                 
             this.loading = true;
-             this.errors = null,
-            
+            this.errors = null;
+
+            this.$store.commit('setLastSearch',{                
+            from: this.from,
+            to: this.to
+            });
+
             axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
             .then(response => {
                     this.status = response.status;
@@ -84,9 +89,7 @@ export default {
             if(is422(error) ){
                 this.errors = error.response.data.errors;
             }
-            this.status= error.response.status;
-
-            
+            this.status= error.response.status;            
             }).then(
                 ()=>this.loading = false
                 );

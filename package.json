@@ -31,6 +31,7 @@
         "@fortawesome/free-brands-svg-icons": "^5.15.3",
         "@fortawesome/free-regular-svg-icons": "^5.15.3",
         "moment": "^2.29.1",
-        "vue-router": "^3.5.2"
+        "vue-router": "^3.5.2",
+        "vuex": "^3.6.2"
     }
 }
