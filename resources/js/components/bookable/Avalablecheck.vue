@@ -5,8 +5,10 @@
         <div class="row">
           <h5 class="col-12 text-uppercase text-secondary font-weight-bold pt-5">
             Check availablity 
+            <transition name="fade">
             <span v-if="hasAvaiability" class="text-success">( Available)</span>
             <span v-if="noAvailability" class="text-danger">( NO Available)</span>
+            </transition>
         </h5>
             <div class="col-md-6">
                 <div class="form-group">
@@ -47,7 +49,11 @@
                 </div>
             </div>
         </div>
-        <button type="button" name="Check !" id="check" @click="click" :disabled="loading" class="btn btn-primary btn-lg btn-block">Check ! </button>
+
+        <button type="button" name="Check !" id="check" @click="click" :disabled="loading" class="btn btn-primary btn-lg btn-block">
+        <span v-if="!loading">Check !</span>
+        <span v-if="loading"> <i class="fas fa-circle-notch fa-spin"></i> Checking...</span>
+        </button>
     </div>
 </template>
 
@@ -76,10 +82,17 @@ export default {
             this.loading = true;
             this.errors = null;
 
-            this.$store.commit('setLastSearch',{                
+            // this.$store.commit('setLastSearch',{                
+            // from: this.from,
+            // to: this.to
+            // });
+
+            this.$store.dispatch('setLastSearch',{                
             from: this.from,
             to: this.to
             });
+
+            
 
             axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
             .then(response => {
