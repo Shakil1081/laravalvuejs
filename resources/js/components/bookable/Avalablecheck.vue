@@ -77,7 +77,7 @@ export default {
         }
     },
     methods:{
-            click(){
+           async click(){
                 
             this.loading = true;
             this.errors = null;
@@ -92,24 +92,36 @@ export default {
             to: this.to
             });
 
-            
+                try{
+                     this.status = ( await axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`
+                     )).status;
+                     this.$emit("availability", this.hasAvaiability);
+                    }catch(err){
+                        if(is422(err) ){
+                        this.errors = err.response.data.errors;
+                        }
+                     this.status= err.response.status;  
+                      this.$emit("availability", this.hasAvaiability); 
+                }
+                    this.loading = false;
 
-            axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
-            .then(response => {
-                    this.status = response.status;
-            }).catch(error => {
+
+            // axios.get(`/api/bookable/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`)
+            // .then(response => {
+            //         this.status = response.status;
+            // }).catch(error => {
                
-            if(is422(error) ){
-                this.errors = error.response.data.errors;
-            }
-            this.status= error.response.status;            
-            }).then(
-                ()=>this.loading = false
-                );
-            }
+            // if(is422(error) ){
+            //     this.errors = error.response.data.errors;
+            // }
+            // this.status= error.response.status;            
+            // }).then(
+            //     ()=>this.loading = false
+            //     );
+            // }
             // errorFor(fiels){
             // return this.hasErrors && this.errors[fiels] ? this.errors[fiels] : null;
-            // }
+     }
 
     },
  
