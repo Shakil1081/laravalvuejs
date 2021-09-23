@@ -14,7 +14,15 @@
                 <review-list :bookable-id="this.$route.params.id"></review-list>
             </div>
             <div class="col-md-4">
-                <Avalablecheck :bookable-id="this.$route.params.id" @availability="checkPrice($event)"></Avalablecheck>
+                <Avalablecheck :bookable-id="this.$route.params.id" @availability="checkPrice($event)" class="mb-4"></Avalablecheck>
+
+                   <transition name="fade">
+                       <pricr-breakdoen v-if="price" :price="price"></pricr-breakdoen>
+</transition>
+                          <transition name="fade">
+                        <button type="button" class="btn btn-outline-secondary btn-lg btn-block" v-if="price">Booka now</button>
+                   </transition>
+                   
             </div>
         </div>
     </div>
@@ -23,12 +31,15 @@
 <script>
 import Avalablecheck from "./Avalablecheck";
 import ReviewList from "./ReviewList";
+import PricrBreakdoen from './pricrBreakdoen';
 import { mapState } from 'vuex';
+
 
 export default {
     components: {
         Avalablecheck,
-        ReviewList
+        ReviewList,
+        PricrBreakdoen
     },
     data() {
         return {
